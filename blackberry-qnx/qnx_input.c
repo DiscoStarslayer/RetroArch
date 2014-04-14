@@ -301,7 +301,7 @@ static void process_touch_event(screen_event_t event, int type)
 {
    int contact_id;
    int pos[2];
-   int i;
+   unsigned int i;
 
    screen_get_event_property_iv(event, SCREEN_PROPERTY_TOUCH_ID, (int*)&contact_id);
    screen_get_event_property_iv(event, SCREEN_PROPERTY_SOURCE_POSITION, pos);
@@ -338,7 +338,7 @@ static void process_touch_event(screen_event_t event, int type)
 
                //Remove touch from map and shift remaining valid ones to the front
                touch_map[touch[i].map] = -1;
-               int j;
+               unsigned int j;
                for(j=touch[i].map;j<touch_count;++j)
                {
                  touch_map[j] = touch_map[j+1];
@@ -510,7 +510,7 @@ static void *qnx_input_init(void)
 
    //Get screen dimensions
    if(gfx_ctx_bbqnx.get_video_size)
-      gfx_ctx_bbqnx.get_video_size(&screen_width, &screen_height);
+      gfx_ctx_bbqnx.get_video_size(NULL, &screen_width, &screen_height);
 
    if(initialized)
       return (void*)-1;

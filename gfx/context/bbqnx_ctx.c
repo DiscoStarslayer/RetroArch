@@ -306,7 +306,7 @@ static void gfx_ctx_check_window(void *data, bool *quit,
    *quit = false;
 
    unsigned new_width, new_height;
-   gfx_ctx_get_video_size(&new_width, &new_height);
+   gfx_ctx_get_video_size(data, &new_width, &new_height);
    if (new_width != *width || new_height != *height)
    {
       *width  = new_width;

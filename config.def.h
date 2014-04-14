@@ -1,7 +1,7 @@
 /*  RetroArch - A frontend for libretro.
  *  Copyright (C) 2010-2014 - Hans-Kristian Arntzen
  *  Copyright (C) 2011-2014 - Daniel De Matteis
- * 
+ *
  *  RetroArch is free software: you can redistribute it and/or modify it under the terms
  *  of the GNU General Public License as published by the Free Software Found-
  *  ation, either version 3 of the License, or (at your option) any later version.
@@ -34,7 +34,7 @@
 #include "gx/gx_input.h"
 #endif
 
-enum 
+enum
 {
    VIDEO_GL = 0,
    VIDEO_XVIDEO,
@@ -282,7 +282,7 @@ static const bool video_threaded = false;
 static const bool video_smooth = true;
 
 // On resize and fullscreen, rendering area will stay 4:3
-static const bool force_aspect = true; 
+static const bool force_aspect = true;
 
 // Enable use of shaders.
 #ifdef RARCH_CONSOLE
@@ -325,7 +325,7 @@ static const char *default_overlay_dir = NULL;
 #endif
 
 #if defined(__QNX__)
-static const char *default_shader_dir = "/app/native/shaders_glsl/";
+static const char *default_shader_dir = "app/native/shaders_glsl/";
 #elif defined(ANDROID)
 static const char *default_shader_dir = "/data/data/com.retroarch/shaders_glsl/";
 #elif defined(IOS)
@@ -335,7 +335,7 @@ static const char *default_shader_dir = NULL;
 #endif
 
 #if defined(__QNX__)
-static const char *default_config_path = "app/native/retroarch.cfg";
+static const char *default_config_path = "data/retroarch.cfg";
 #else
 static const char *default_config_path = NULL;
 #endif
@@ -355,7 +355,7 @@ static bool default_core_specific_config = false;
 #if defined(ANDROID)
 static const char *default_libretro_info_path = "/data/data/com.retroarch/info/";
 #elif defined(__QNX__)
-static const char *default_libretro_info_path = "/app/native/info/";
+static const char *default_libretro_info_path = "app/native/info/";
 #elif defined(_XBOX1)
 static const char *default_libretro_info_path = "D:";
 #elif defined(_XBOX360)
@@ -367,7 +367,7 @@ static const char *default_libretro_info_path = NULL;
 #if defined(ANDROID)
 static const char *default_libretro_path = "/data/data/com.retroarch/cores/";
 #elif defined(__QNX__)
-static const char *default_libretro_path = "/app/native/lib/";
+static const char *default_libretro_path = "app/native/lib/";
 #elif defined(_XBOX1)
 static const char *default_libretro_path = "D:";
 #elif defined(_XBOX360)
@@ -418,9 +418,9 @@ static const bool font_enable = true;
 #if defined(__QNX__)
 static const float refresh_rate = 59.98;
 #elif defined(RARCH_CONSOLE)
-static const float refresh_rate = 60/1.001; 
+static const float refresh_rate = 60/1.001;
 #else
-static const float refresh_rate = 59.95; 
+static const float refresh_rate = 59.95;
 #endif
 
 // Allow games to set rotation. If false, rotation requests are honored, but ignored.
@@ -443,7 +443,7 @@ static const char *audio_device = NULL;
 // Desired audio latency in milliseconds. Might not be honored if driver can't provide given latency.
 static const int out_latency = 64;
 
-// Will sync audio. (recommended) 
+// Will sync audio. (recommended)
 static const bool audio_sync = true;
 
 // Default resampler

@@ -16,10 +16,10 @@
 #include "general.h"
 #include "conf/config_file.h"
 #include "file.h"
-#include "core_info.h"
+#include "../../../frontend/info/core_info.h"
 
 #ifdef HAVE_RGUI
-#include "frontend/menu/rgui.h"
+#include "../../../frontend/menu/menu_common.h"
 #endif
 
 #include "../../frontend_qnx.h"
@@ -60,16 +60,31 @@ RetroArch::RetroArch()
    chid = ChannelCreate(0);
    coid = ConnectAttach(0, 0, chid, _NTO_SIDE_CHANNEL, 0);
 
-   bool res = connect(
+   // If first run, copy over native assets to data
+   QString dataDir = QString::fromStdString("data");
+   QString config = QString::fromStdString("app/native/retroarch.cfg");
+
+   dataDir.append("/retroarch.cfg");
+
+
+   if (!QFile::exists(dataDir)) {
+	   QFile::copy(config, dataDir);
+   }
+
+   connect(
          OrientationSupport::instance(), SIGNAL(rotationCompleted()),
          this, SLOT(onRotationCompleted()));
 
    rarch_main_clear_state();
-   strlcpy(g_extern.config_path, "app/native/retroarch.cfg", sizeof(g_extern.config_path));
+   strlcpy(g_extern.config_path, "data/retroarch.cfg", sizeof(g_extern.config_path));
    config_load();
 
    strlcpy(g_settings.libretro, "app/native/lib", sizeof(g_settings.libretro));
+   strlcpy(g_settings.video.shader_dir, "data/shaders_glsl", sizeof(g_settings.video.shader_dir));
+   strlcpy(g_settings.video.filter_path, "app/native/shaders_glsl", sizeof(g_settings.video.filter_path));
+   strlcpy(g_settings.libretro_info_path, "app/native/info", sizeof(g_settings.libretro_info_path));
    coreSelectedIndex = -1;
+
 
    //Stop config overwritting values
    g_extern.block_config_read = true;
@@ -124,6 +139,29 @@ void RetroArch::aboutToQuit()
    MsgSend(coid, (void*)&msg, sizeof(msg), (void*)NULL, 0);
 
    wait();
+}
+
+void RetroArch::recurseAddDir(QDir d, QStringList & list) {
+
+    QStringList qsl = d.entryList(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Files);
+
+    foreach (QString file, qsl) {
+
+        QFileInfo finfo(QString("%1/%2").arg(d.path()).arg(file));
+
+        if (finfo.isSymLink())
+            return;
+
+        if (finfo.isDir()) {
+
+            QString dirname = finfo.fileName();
+            QDir sd(finfo.filePath());
+
+            recurseAddDir(sd, list);
+
+        } else
+            list << QDir::toNativeSeparators(finfo.filePath());
+    }
 }
 
 void RetroArch::run()
@@ -264,26 +302,26 @@ void RetroArch::onCoreSelected(QVariant value)
 void RetroArch::startEmulator()
 {
    state = RETROARCH_START_REQUESTED;
-
-   if (OrientationSupport::instance()->orientation() == UIOrientation::Portrait &&
-       OrientationSupport::instance()->supportedDisplayOrientation() != SupportedDisplayOrientation::DeviceNorth)
-   {
-      OrientationSupport::instance()->setSupportedDisplayOrientation(SupportedDisplayOrientation::DisplayLandscape);
-   }
-   else
-   {
+//
+//   if (OrientationSupport::instance()->orientation() == UIOrientation::Portrait &&
+//       OrientationSupport::instance()->supportedDisplayOrientation() != SupportedDisplayOrientation::DeviceNorth)
+//   {
+//      //OrientationSupport::instance()->setSupportedDisplayOrientation(SupportedDisplayOrientation::DisplayLandscape);
+//   }
+//   else
+//   {
       recv_msg msg;
       msg.code = RETROARCH_START_REQUESTED;
 
       MsgSend(coid, (void*)&msg, sizeof(msg), (void*)NULL, 0);
 
       state = RETROARCH_RUNNING;
-   }
+   //}
 }
 
 void RetroArch::populateCores(core_info_list_t * info)
 {
-   int i;
+   unsigned int i;
    Option *tmp;
 
    //Populate DropDown
@@ -306,7 +344,7 @@ void RetroArch::findDevices()
    deviceSelection->removeAll();
 
    //Populate DropDown
-   for (int i = 0; i < pads_connected; ++i)
+   for (unsigned int i = 0; i < pads_connected; ++i)
    {
       tmp = Option::create().text(devices[i].device_name)
                             .value(i);

@@ -55,6 +55,8 @@ private:
      */
     void run();
 
+    void recurseAddDir(QDir d, QStringList & list);
+
     QString rom;
     QString getRom();
     void setRom(QString rom);

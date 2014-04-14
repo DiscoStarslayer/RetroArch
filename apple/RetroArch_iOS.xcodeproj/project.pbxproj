@@ -18,7 +18,6 @@
 		962979F616C43B9500E6DCE0 /* ic_dir.png in Resources */ = {isa = PBXBuildFile; fileRef = 962979F416C43B9500E6DCE0 /* ic_dir.png */; };
 		962979F716C43B9500E6DCE0 /* ic_file.png in Resources */ = {isa = PBXBuildFile; fileRef = 962979F516C43B9500E6DCE0 /* ic_file.png */; };
 		96297A0F16C5AEA100E6DCE0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 96297A0E16C5AEA100E6DCE0 /* main.m */; };
-		96297A2716C82FF100E6DCE0 /* overlays in Resources */ = {isa = PBXBuildFile; fileRef = 96297A2616C82FF100E6DCE0 /* overlays */; };
 		96337E82176AC6E5004685F3 /* utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 96337E81176AC6E5004685F3 /* utility.m */; };
 		96366C5516C9AC3300D64A22 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96366C5416C9AC3300D64A22 /* CoreAudio.framework */; };
 		96366C5916C9ACF500D64A22 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96366C5816C9ACF500D64A22 /* AudioToolbox.framework */; };
@@ -293,7 +292,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96297A2716C82FF100E6DCE0 /* overlays in Resources */,
 				962979F616C43B9500E6DCE0 /* ic_dir.png in Resources */,
 				962979F716C43B9500E6DCE0 /* ic_file.png in Resources */,
 				966B9CBD16E41E7A005B61E1 /* Default-568h@2x.png in Resources */,
